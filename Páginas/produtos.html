@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos Comercializados na nossa Loja Online</title>
+    <title>Visualizção dos nossos produtos</title>
+   <style>
+        :root { --gold: #C5A059; --dark: #0F0F0F; }
+        body { font-family: sans-serif; margin: 0; background: #eee; }
+        nav { background: var(--dark); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; color: white; }
+        .back-link { color: var(--gold); text-decoration: none; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; padding: 20px 5%; }
+        .card { background: white; border-radius: 12px; overflow: hidden; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .card:hover { transform: translateY(-10px); }
+        .card img { width: 100%; height: 100px; object-fit: cover; }
+        .card-info { padding: 15px; }
+        .price { color: var(--gold); font-weight: bold; font-size: 1.2rem; }
+        .btn { background: var(--dark); color: white; border: none; width: 100%; padding: 10px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        </style>
+</head>
+<body>
+
+<nav>
+    <a href="historialSeguinte.html" class="back-link">← Página anterior</a>
+    <h2>Produtos da nossa Loja Online/ Angola</h2>
+    <div>🛒 <span id="cart-total">0</span></div>
+</nav>
+<div class="grid" id="produtos-container"> </div>
+<script>
+    const produtos = [
+        { nome: "Smartphones", preco: "110.000-240.000", Imagem:"../Imagens/Smartphone.png"},
+        { nome: "Computadores", preco: "240.000-520.000", Imagem:"../Imagens/Laptop.png"},
+        { nome: "Auriculares sem fios", preco: "3.500-7.500", Imagem:"../Imagens/Wireless.png"},
+        { nome: "Roupas Masculinas", preco: "10.000-75.000", Imagem:"../Imagens/Masculinas.png" },
+        { nome: "Roupas Femininas", preco: "10.000-60.000", Imagem:"../Imagens/Roupas_femininas.png" },
+        { nome: "Calçados", preco: "12.000-45.000", Imagem:"../Imagens/Calçados.png" },
+        { nome: "Perfumes", preco: "5.000-35.000" , Imagem:"../Imagens/perfume.png"},
+        { nome: "Calçados femininos", preco: "5.000-25.000" , Imagem:"../Imagens/Calçados_femininos.png"},
+    ];
+    const container = document.getElementById('produtos-container');
+let carrinhoSalvo = JSON.parse(localStorage.getItem('meuCarrinho')) || [];
+let count = carrinhoSalvo.length;
+window.onload = () => {
+    const cartTotalElement = document.getElementById('cart-total');
+    if(cartTotalElement) cartTotalElement.innerText = count;
+};
+produtos.forEach(Item => {
+    container.innerHTML += `
+        <div class="card">
+            <img src="${Item.Imagem}" alt="${Item.nome}">
+            <div class="card-info">
+                <h3>${Item.nome}</h3>
+                <div class="price">${Item.preco} Kz</div>
+                <button class="btn" onclick="buy('${Item.nome}', ${Item.preco}, '${Item.Imagem}')">
+                    Comprar produto
+                </button>
+            </div>
+        </div>
+    `;
+});
+function buy(nome, preco, imagem) {
+    let carrinho = JSON.parse(localStorage.getItem('meuCarrinho')) || [];
+    carrinho.push({ 
+        nome: nome, 
+        preco: preco, 
+        imagem: imagem 
+    });
+    localStorage.setItem('meuCarrinho', JSON.stringify(carrinho));
+    count++; 
+    const cartTotalElement = document.getElementById('cart-total');
+    if(cartTotalElement) {
+        cartTotalElement.innerText = count;
+    }
+    
+    alert(`${nome} adicionado a lista de compras!`);
+}
+
+</script>
+<div class="payment-section">
+    <p class="payment-title">Pague os nossos serviços com:</p>
+    <div class="payment-methods">
+        <img src="../Imagens/Multicaixa.png" alt="Multicaixa">
+        <img src="../Imagens/PAYPAY.png" alt="PayPay">
+        <img src="../Imagens/BPC.png" alt="BPC">
+        <img src="../Imagens/VISA.png" alt="VISA">
+    </div>
+</div>
+<style>
+    .payment-section {
+        text-align: center;
+        margin: 40px 0;
+        padding: 20px;
+        background: #fff;
+    }
+
+    .payment-title {
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+
+    .payment-methods {
+        display: flex;
+        gap: 30px; 
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .payment-methods img {
+        width: 80px;
+        height: auto;
+        filter: grayscale(20%);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .payment-methods img:hover {
+        transform: scale(1.2); 
+        filter: grayscale(0%) brightness(1.1);
+    }
+    .footer-container {
+        text-align: center;
+        padding: 30px;
+        background: var(--dark);
+        margin-top: 50px;
+    }
+    .botao {
+        background: var(--gold);
+        color: white;
+        text-decoration: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    .botao:hover {
+        background: white;
+        color: var(--dark);
+    }
+</style>
+<footer class="footer-container">
+    <a href="lista_produtos.html" class="botao">Clique Aqui</a>
+    <p style="color: white; margin-top: 15px;">Mostrar a lista de produtos comprados</p>
+</footer>
+
+
+
